@@ -3,7 +3,7 @@
 This project is a mockup of a client side banking application using 
 JavaScript. It  was created as part of Jonas Schedtmann's, "Complete JavaScript 
 Course," available on Udemy, who has provided permission for its use as a 
-portfolio piece. All HTML, images, and CSS was provided as a starter
+portfolio piece. All HTML, images, and CSS were provided as a starter
 for this application, and all JavaScript was created by the repository owner, 
 Kyle Galway. 
 
