@@ -113,8 +113,6 @@ const displayMovements = function(movementsArray, sorted=false, sortString)
     };
 
     let dateFormatter = Intl.DateTimeFormat(currentAccount.locale);
-    // let numberFormatter = Intl.NumberFormat(currentAccount.locale, 
-    //     currencyOptions);
 
     displayArray.forEach((movementNumber, index) => 
     {  
@@ -139,13 +137,11 @@ const displayMovements = function(movementsArray, sorted=false, sortString)
             <div class="movements__type movements__type--${movementTypeString}"`
             + `>${index + 1} ${movementTypeString}</div>
             <div class="movements__date">${outputTime}</div> 
-            <div class="movements__value">${currentAccount.numFormatter.format(movementNumber.toFixed(2))}</div>
+            <div class="movements__value">${currentAccount.numFormatter
+                .format(movementNumber.toFixed(2))}</div>
         </div>
         `;
         containerMovements.insertAdjacentHTML("afterbegin", htmlTemplateString);
-
-        // .insertAdjacentHTML is something of a quick and dirty solution to
-        // inserting HTML, though it is extremely easy and effective.
     });
 };
 
@@ -226,7 +222,8 @@ const generateFields = function()
 {
     displayMovements(currentAccount.movements);
     generateAccountBalance(currentAccount);
-    labelBalance.textContent = `${currentAccount.numFormatter.format(currentAccount.balance.toFixed(2))}`;
+    labelBalance.textContent = `${currentAccount.numFormatter
+        .format(currentAccount.balance.toFixed(2))}`;
 
     calculateAccountSummaries(currentAccount);
     labelSumIn.textContent = 
@@ -241,20 +238,8 @@ const generateFields = function()
     inputLoginUsername.blur();
     inputLoginPin.blur();
 
-    // let dateCurrent = new Date();
-    // let dayCurrent = dateCurrent.getDay();
-    // let monthCurrent = dateCurrent.getMonth();
-    // let yearCurrent = dateCurrent.getFullYear();
-    // let monthdateCurrent = `${dateCurrent.getDate()}`.padStart(2, "0");
-
-    // labelDate.textContent = `${arrayDays[dayCurrent]} `
-    //  + `${arrayMonths[monthCurrent]} ${monthdateCurrent}, ${yearCurrent}`;
-
     let dateCurrent = new Date();
 
-    // We can create an international formatter with the Intl module and then 
-    // use it to format our dates with the correct language-REGION code. 
-    // Examples: en-CA (Canada) en-US (United States), en-GB (Great Britain)
     const optionsObj = 
     {
         "hour": "numeric",
@@ -392,8 +377,7 @@ const beginTransferEvent = function(event)
     }
 };
 
-btnTransfer.addEventListener("click", beginTransferEvent)
-
+btnTransfer.addEventListener("click", beginTransferEvent);
 
 // CLOSING ACCOUNTS 
 
@@ -471,181 +455,6 @@ function beginLoanEvent(event)
 
 btnLoan.addEventListener("click", beginLoanEvent);
 
-// CONVERTING AND CHECKING NUMBERS 
-
-// All numbers are represented by floating by numbers, even if we do not see 
-// them as integers. Numbers are also always stored as binary digits, and this 
-// makes it difficult to represent numbers as decimals. Because of floating 
-// point imprecision, decimal numbers are often slightly inaccurate.
-
-// This will output as true because all numbers are actually floats. 
-// console.log(23 === 23.0);
-
-// // This will output 3.000004 or so because of floating point imprecision. 
-// console.log(0.1 + 0.2); 
-
-// // JavaScript will do some rounding behind the scenes to hide this imprecision, 
-// // but there is no way to mask these issues. Most languages have this problem. 
-// // As a result, we cannot do incredibly precise float operations in JavaScript. 
-
-// // We can convert a String to a number with the Number() contructor. 
-// console.log(Number("1234"));
-
-// // We can also just use the addition operator (one sided only)
-// console.log(+ "1234");
-
-// // In addition to converting a string into a number, we can convert a number 
-// // into a string with the parseInt() function. If there are any non-number 
-// // characters, JavaScript will do its best to convert the string into a number 
-// // by truncating any characters that are not digits. For this to work, the 
-// // string must start with a number or series of numbers. This is useful for 
-// // when we receive a unit (300px, 5deg) and we need to get rid of the unit. 
-// console.log(Number.parseInt("300pxdawd"));
-
-// // Number.parseInt() receives a second argument, which determines the base 
-// // digit we are using. 
-
-// let baseTen = 10;
-// let baseEight = 8;
-
-// // The first will output decimal, the second will output octal. 
-// console.log(Number.parseInt("300px", baseTen));
-// console.log(Number.parseInt("300px", baseEight));
-
-// // There is also the parseFloat method. parseInt will truncate all decimals. 
-// // The parseInt and parseFloat methods will ignore all whitespaces as well. 
-// console.log(Number.parseFloat("   2.5rem   ", baseTen));
-// console.log(Number.parseInt(" 2.5rem   ", baseTen));
-
-// // The parseInt and parseFloat methods are both global functions, however, 
-// // calling them on the Number objects specifies their namespace and is clear. 
-// console.log(parseFloat("10.78vh"));
-// console.log(parseInt("10.78ch"));
-
-// // Next is the isNaN method. This is used to check if a string is a number. 
-// console.log(Number.isNaN("20"));
-// console.log(Number.isNaN(23 / 0));
-
-// // To avoid infinity errors, we can use the isFinite() method to check if a 
-// // value is a finite number. The isFinite() method for the global namespace is 
-// // not the same: Number.isFinite() will not convert the the value into a number, 
-// // but isFinite() will. Number.isFinite() requires us to do conversion. 
-// console.log(Number.isFinite("23"));
-// console.log("Testing")
-
-// // We can use the basic addition operator to convert a value into a number. 
-// console.log(Number.isFinite(+"2023"));
-//  // In practice, we can mostly just use Number.isFinite(+"value") to check. 
-
-// MATH AND ROUNDING 
-
-// There are a variety of Math operations which are supported by JavaScript. 
-// Math.sqrt(number) is equal to number ** (1/2)
-// Math.cbrt(number) is equal to number ** (1/3)
-console.log(Math.sqrt(25));
-console.log(25 ** (1 / 2));
-console.log(Math.cbrt(27));
-console.log(27 ** (1 / 3));
-
-// We can use the Math.max and Math.min methods to find the min and max of a 
-// list of values. These methods will performing conversion, but not parsing. 
-console.log(Math.min(5, 2, "3ex")); // Will result in NaN.
-console.log(Math.max(5, 18, 23, 11, 2));
-console.log(Math.min("5", "18", "23"));
-let arrayNumbers = [1, 2, 3, "4"];
-console.log(Math.max(...arrayNumbers));
-
-// The Math namespace also has a number of constants, such as Math.PI
-console.log(Math.sqrt(Math.PI * Number.parseFloat("10px")));
-
-// The Math object also has the random function. 
-console.log(Math.random() * 6 + 1);
-console.log("Custom random()")
-
-const randomFloat = (minNumber, maxNumber) =>
-    Math.random() * (maxNumber - minNumber) + minNumber;
-
-const randomInt = (minNumber, maxNumber) =>
-    Math.floor(Math.random() * (maxNumber - minNumber) + minNumber);
-
-console.log("Rounding");
-
-// ROUNDING 
-
-// Math.trunc() is used to remove all decimals from a number. 
-console.log(Math.trunc(2.111));
-
-// The Math.round() method is used to round to the nearest integer. 
-console.log(Math.round(23.4));
-console.log(Math.round(23.5));
-
-// Ceil will raise a number to its highest integer by raising the absolute 
-// value, while floor will lower a number to its lowest integer by lowering 
-// the absolute value. 
-// For negative numbers, ceil will "lower" the absolute value, while floor will 
-// "raise" the absolute value. 
-console.log(Math.ceil(23.1));
-console.log(Math.floor(23.9))
-console.log(Math.floor(-23.1));
-console.log(Math.ceil(-23.5))
-
-// Rounding floating point numbers is a little different. It is almost never 
-// a good idea to change the value of a floating point number by rounding it, 
-// so the main use case of rounding them is for display purposes. In these 
-// cases, we mostly just want to access a string representation of the number 
-// rounded to the correct number of digits with the number.toFixed() method.
-
-// The decimals argument lets us determine how many decimal places we want. 
-// If we add more decimals than are in the number, it will pad it with zeroes. 
-// If the decimals argument is 0, it will return a rounded integer string. 
-// As with all strings, we can convert them back to numbers with the + operator.
-let decimalsNumber = 1;
-console.log(2.7.toFixed(decimalsNumber));
-console.log((2.7).toFixed(decimalsNumber + 5));
-console.log((2.7).toFixed(decimalsNumber - 1));
-console.log(+ (2.345678).toFixed(3));
-
-// Since all numbers are primitives, JavaScript perform boxing to run any 
-// methods called on a number by converting the primitive value into a 
-// Number object, running the method, and then behind the scenes, converting 
-// the object back into a primitive value. 
-
-// THE REMAINDER OPERATOR 
-
-// The remainder operator returns the remainder after division. It is also 
-// known as the modulus operator. 
-
-// let mathOutputNum;
-
-// mathOutputNum = 5 % 2;
-
-// console.log(mathOutputNum);
-
-const colorOddMovementsFunc = function(event)
-{
-    let movementsRowNodeList = document.querySelectorAll(".movements__row");
-    let movementsRowArray = [...movementsRowNodeList];
-    console.log(movementsRowArray);
-
-    movementsRowArray.forEach((movementRow, indexNum) => 
-    {
-        // console.log(movementRow);
-        if ((indexNum + 1) % 2 === 0)
-        {
-            movementRow.style["backgroundColor"] = "orangered";
-        }
-        if ((indexNum + 1) % 3 === 0)
-        {
-            movementRow.style["backgroundColor"] = "lightgreen";
-        }
-    });
-};
-
-btnLogin.addEventListener("click", colorOddMovementsFunc);
-
-// Overall, the remainder is a great, simple choice whenever we need to do 
-// something on every nth number of iterations. In this case, for every three 
-// or two rows, we want to change the background color of an element. 
 
 // CREATING DATES FOR ACCOUNTS
 
@@ -657,7 +466,6 @@ const funcParseDateStringIntoDateObjectForAccounts =
 
     accountObj["movementDateArray"] = 
         accountObj.movementsDates.map(funcParseStringIntoDate);
-    // console.log(accountObj);  
 };
 
 accounts.forEach(funcParseDateStringIntoDateObjectForAccounts);
@@ -675,16 +483,12 @@ function funcGenerateAddTimestampFunction()
     }
 };
 
-// console.log(funcGenerateAddTimestampFunction());
-
 accounts.forEach((accountObj, indexNum) => 
 {
-    // console.log(typeof accountObj.movementDateArray);
     let arrayMovementTimeDifferences = accountObj.movementDateArray
         .map(funcGenerateAddTimestampFunction());
 
     accountObj.arrayMovementTimes = arrayMovementTimeDifferences;
-    // console.log(accountObj);
 });
 
 // GENERATE NUMBER FORMATTER FOR ACCOUNTS 
@@ -718,14 +522,6 @@ function beginLogoutTimer()
         labelTimer.textContent = `${String(timeMinutes).padStart(2, "0")}`
         + `:${String(timeSeconds).padStart(2, "0")}`;
     };
-
-
-    // 1. Begin Interval timer for updating clock every second. Format time as 
-    // MIN/SECONDS.
-        // 1. Find out how many minutes are in the remaining time (remainder)
-        // 2. Find out how many seconds are in the remainder. 
-    // 2. Begin timeout timer for logging out after five minutes and disabling 
-    // interval timer. 
 
     intervalTimer = setInterval(funcUpdateTimer, 1000);
     timeoutLogout = setTimeout(() => 
