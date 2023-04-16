@@ -30,7 +30,6 @@ Some of the array operations performed in this project include:
     <li> Splicing with .splice() </li>
     <li> Checking with .some() and .every() </li>
     <li> Splicing with .splice() </li>
-
     <li> The spread operator </li>
 </ul>
 
